@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, Image} from 'react-native';
-import {green} from '../utils';
+import {View, SafeAreaView, Image} from 'react-native';
+import {styles} from './styles';
 
 class Splash extends Component {
   constructor(props) {
@@ -9,18 +9,12 @@ class Splash extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: green,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.mainView}>
           <Image
             source={require('../../assets/skylogo.png')}
             resizeMode={'contain'}
-            style={{alignSelf: 'center', width: 300}}
+            style={styles.logoStyle}
           />
         </View>
       </SafeAreaView>
