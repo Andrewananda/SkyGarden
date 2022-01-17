@@ -9,9 +9,17 @@ import {
 } from 'react-native';
 import {fetchProducts} from '../utils/network';
 import {withNetwork} from '../utils';
-import {ActivityIndicator, Card} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Card,
+  Appbar,
+  Badge,
+  TextInput,
+  Searchbar,
+} from 'react-native-paper';
 import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {black} from '../utils/colors';
 
 export default class Product extends Component {
   constructor(props) {
@@ -169,6 +177,32 @@ export default class Product extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <Appbar.Header
+          style={{backgroundColor: black, height: moderateScale(110)}}>
+          <Appbar.Action
+            style={{position: 'absolute', top: moderateScale(-70)}}
+            icon={require('../../assets/skylogo.png')}
+            size={moderateScale(120)}
+          />
+          <Badge style={{position: 'absolute', right: 0, top: 5}}>
+            <Text style={{color: '#fff'}}>5</Text>
+          </Badge>
+          <Appbar.Action
+            icon={'cart'}
+            style={{position: 'absolute', right: 0, top: 3}}
+          />
+          <Searchbar
+            placeholder="Search for everything"
+            style={{
+              position: 'absolute',
+              top: moderateScale(50),
+              height: moderateScale(38),
+              margin: moderateScale(10),
+              width: '90%',
+              borderRadius: 10,
+            }}
+          />
+        </Appbar.Header>
         {this.state.loading && (
           <View
             style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>

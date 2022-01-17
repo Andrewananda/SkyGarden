@@ -18,7 +18,11 @@ class App extends Component {
             name={'splash'}
             component={Splash}
           />
-          <Stack.Screen name={'product'} component={Product} />
+          <Stack.Screen
+            name={'product'}
+            component={Product}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
