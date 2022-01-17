@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from './src/splash';
+import Product from './src/product';
 
 const Stack = createNativeStackNavigator();
 class App extends Component {
@@ -18,6 +18,7 @@ class App extends Component {
             name={'splash'}
             component={Splash}
           />
+          <Stack.Screen name={'product'} component={Product} />
         </Stack.Navigator>
       </NavigationContainer>
     );
