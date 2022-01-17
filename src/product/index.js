@@ -19,7 +19,7 @@ import {
 } from 'react-native-paper';
 import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {black} from '../utils/colors';
+import {black, green} from '../utils/colors';
 
 export default class Product extends Component {
   constructor(props) {
@@ -184,7 +184,13 @@ export default class Product extends Component {
             icon={require('../../assets/skylogo.png')}
             size={moderateScale(120)}
           />
-          <Badge style={{position: 'absolute', right: 0, top: 5}}>
+          <Badge
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 5,
+              backgroundColor: green,
+            }}>
             <Text style={{color: '#fff'}}>5</Text>
           </Badge>
           <Appbar.Action
