@@ -9,13 +9,7 @@ import {
 } from 'react-native';
 import {fetchProducts} from '../utils/network';
 import {withNetwork} from '../utils';
-import {
-  ActivityIndicator,
-  Card,
-  Appbar,
-  Badge,
-  Searchbar,
-} from 'react-native-paper';
+import {ActivityIndicator, Card} from 'react-native-paper';
 import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Container from '../components/Container';
