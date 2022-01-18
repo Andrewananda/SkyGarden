@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from './src/splash';
 import Product from './src/product';
+import ProductDescription from './src/product/productDescription';
 
 const Stack = createNativeStackNavigator();
 class App extends Component {
@@ -21,6 +22,11 @@ class App extends Component {
           <Stack.Screen
             name={'product'}
             component={Product}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name={'ProductDescription'}
+            component={ProductDescription}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

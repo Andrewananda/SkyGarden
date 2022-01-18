@@ -20,6 +20,7 @@ import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Container from '../components/Container';
 import styles from './styles';
+import Header from '../components/Header';
 
 export default class Product extends Component {
   constructor(props) {
@@ -64,42 +65,55 @@ export default class Product extends Component {
   renderProducts = ({item}) => {
     return (
       <Card style={styles.productCard}>
-        <View style={{margin: moderateScale(10)}}>
-          <Image
-            source={{uri: item.thumbnail}}
-            style={styles.thumbnailStyle}
-            resizeMode={'contain'}
-          />
-          <Text style={{margin: moderateScale(4)}} numberOfLines={2}>
-            {item.title}
-          </Text>
-          <Text style={styles.txtStockPrice}>
-            {item.stock_record_price_currency +
-              ' ' +
-              item.stock_record_price_retail}
-          </Text>
-          {item.is_on_offer && item.offer_benefit_type == 'Absolute' && (
+        <Pressable
+          onPress={() =>
+            this.props.navigation.navigate('ProductDescription', {
+              product: item,
+            })
+          }>
+          <View style={{margin: moderateScale(10)}}>
+            <Image
+              source={{uri: item.thumbnail}}
+              style={styles.thumbnailStyle}
+              resizeMode={'contain'}
+            />
+            <Text style={{margin: moderateScale(4)}} numberOfLines={2}>
+              {item.title}
+            </Text>
+            <Text style={styles.txtStockPrice}>
+              {item.stock_record_price_currency +
+                ' ' +
+                item.stock_record_price_retail}
+            </Text>
+            {item.is_on_offer && item.offer_benefit_type == 'Absolute' && (
+              <View>
+                <Text style={styles.txtOfferBenefit}>
+                  {item.stock_record_price_currency +
+                    ' ' +
+                    item.offer_benefit_value}
+                </Text>
+              </View>
+            )}
             <View>
-              <Text style={styles.txtOfferBenefit}>
-                {item.stock_record_price_currency +
-                  ' ' +
-                  item.offer_benefit_value}
-              </Text>
+              <Pressable
+                style={styles.addToCartBtn}
+                onPress={() =>
+                  this.props.navigation.navigate('ProductDescription', {
+                    product: item,
+                  })
+                }>
+                <Text style={styles.txtAddToCart}>Add to Cart</Text>
+                <View style={styles.horizontalLine} />
+                <Icon
+                  style={styles.cartIcon}
+                  size={moderateScale(20)}
+                  color={'#fff'}
+                  name={'shoppingcart'}
+                />
+              </Pressable>
             </View>
-          )}
-          <View>
-            <Pressable style={styles.addToCartBtn}>
-              <Text style={styles.txtAddToCart}>Add to Cart</Text>
-              <View style={styles.horizontalLine} />
-              <Icon
-                style={styles.cartIcon}
-                size={moderateScale(20)}
-                color={'#fff'}
-                name={'shoppingcart'}
-              />
-            </Pressable>
           </View>
-        </View>
+        </Pressable>
       </Card>
     );
   };
@@ -134,21 +148,7 @@ export default class Product extends Component {
   render() {
     return (
       <Container style={{flex: 1}}>
-        <Appbar.Header style={styles.appBarHeader}>
-          <Appbar.Action
-            style={styles.logoStyle}
-            icon={require('../../assets/skylogo.png')}
-            size={moderateScale(120)}
-          />
-          <Badge style={styles.badgeStyle}>
-            <Text style={{color: '#fff'}}>5</Text>
-          </Badge>
-          <Appbar.Action icon={'cart'} style={styles.cartStyle} />
-          <Searchbar
-            placeholder="Search for everything"
-            style={styles.searchBar}
-          />
-        </Appbar.Header>
+        <Header />
         {this.state.loading && (
           <View style={styles.loadingIndicatorView}>
             <ActivityIndicator size={30} style={{alignSelf: 'center'}} />
