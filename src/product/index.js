@@ -14,12 +14,12 @@ import {
   Card,
   Appbar,
   Badge,
-  TextInput,
   Searchbar,
 } from 'react-native-paper';
 import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {black, green} from '../utils/colors';
+import Container from '../components/Container';
+import styles from './styles';
 
 export default class Product extends Component {
   constructor(props) {
@@ -63,43 +63,24 @@ export default class Product extends Component {
 
   renderProducts = ({item}) => {
     return (
-      <Card
-        style={{
-          flex: 1,
-          elevation: 8,
-          margin: moderateScale(4),
-          borderRadius: moderateScale(4),
-        }}>
+      <Card style={styles.productCard}>
         <View style={{margin: moderateScale(10)}}>
           <Image
             source={{uri: item.thumbnail}}
-            style={{height: moderateScale(150), margin: moderateScale(4)}}
+            style={styles.thumbnailStyle}
             resizeMode={'contain'}
           />
           <Text style={{margin: moderateScale(4)}} numberOfLines={2}>
             {item.title}
           </Text>
-          <Text
-            style={{
-              color: '#4D4D4D',
-              fontWeight: 'bold',
-              fontSize: moderateScale(16),
-              marginStart: moderateScale(4),
-            }}>
+          <Text style={styles.txtStockPrice}>
             {item.stock_record_price_currency +
               ' ' +
               item.stock_record_price_retail}
           </Text>
           {item.is_on_offer && item.offer_benefit_type == 'Absolute' && (
             <View>
-              <Text
-                style={{
-                  fontSize: moderateScale(14),
-                  color: '#c0c0c0',
-                  fontWeight: 'bold',
-                  textDecorationLine: 'line-through',
-                  marginStart: moderateScale(4),
-                }}>
+              <Text style={styles.txtOfferBenefit}>
                 {item.stock_record_price_currency +
                   ' ' +
                   item.offer_benefit_value}
@@ -107,35 +88,11 @@ export default class Product extends Component {
             </View>
           )}
           <View>
-            <Pressable
-              style={{
-                flexDirection: 'row',
-                backgroundColor: '#4D4D4D',
-                margin: moderateScale(5),
-                borderRadius: moderateScale(4),
-                width: moderateScale(125),
-              }}>
-              <Text
-                style={{
-                  color: '#fff',
-                  margin: moderateScale(5),
-                  marginStart: moderateScale(10),
-                }}>
-                Add to Cart
-              </Text>
-              <View
-                style={{
-                  height: '75%',
-                  width: 1,
-                  backgroundColor: '#909090',
-                  marginTop: moderateScale(4),
-                }}
-              />
+            <Pressable style={styles.addToCartBtn}>
+              <Text style={styles.txtAddToCart}>Add to Cart</Text>
+              <View style={styles.horizontalLine} />
               <Icon
-                style={{
-                  margin: moderateScale(5),
-                  marginStart: moderateScale(10),
-                }}
+                style={styles.cartIcon}
                 size={moderateScale(20)}
                 color={'#fff'}
                 name={'shoppingcart'}
@@ -176,42 +133,24 @@ export default class Product extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Appbar.Header
-          style={{backgroundColor: black, height: moderateScale(110)}}>
+      <Container style={{flex: 1}}>
+        <Appbar.Header style={styles.appBarHeader}>
           <Appbar.Action
-            style={{position: 'absolute', top: moderateScale(-70)}}
+            style={styles.logoStyle}
             icon={require('../../assets/skylogo.png')}
             size={moderateScale(120)}
           />
-          <Badge
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: 5,
-              backgroundColor: green,
-            }}>
+          <Badge style={styles.badgeStyle}>
             <Text style={{color: '#fff'}}>5</Text>
           </Badge>
-          <Appbar.Action
-            icon={'cart'}
-            style={{position: 'absolute', right: 0, top: 3}}
-          />
+          <Appbar.Action icon={'cart'} style={styles.cartStyle} />
           <Searchbar
             placeholder="Search for everything"
-            style={{
-              position: 'absolute',
-              top: moderateScale(50),
-              height: moderateScale(38),
-              margin: moderateScale(10),
-              width: '90%',
-              borderRadius: 10,
-            }}
+            style={styles.searchBar}
           />
         </Appbar.Header>
         {this.state.loading && (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+          <View style={styles.loadingIndicatorView}>
             <ActivityIndicator size={30} style={{alignSelf: 'center'}} />
           </View>
         )}
@@ -224,7 +163,7 @@ export default class Product extends Component {
           onEndThreshold={0}
           refreshControl={<RefreshControl refreshing={this.state.refreshing} />}
         />
-      </View>
+      </Container>
     );
   }
 }
