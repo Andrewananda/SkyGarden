@@ -65,6 +65,7 @@ export default class Product extends Component {
               },
             );
             _this.arrayholder = response.data.value;
+            _this.snackBar.onDismissSnackBar();
           },
           function (error) {
             this.setState({loading: false});
