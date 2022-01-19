@@ -71,6 +71,10 @@ export default StyleSheet.create({
     margin: moderateScale(5),
   },
   itemTxtAmount: {
-    fontWeight: 'bold', marginRight: moderateScale(20)
-  }
+    fontWeight: 'bold',
+    position: 'absolute',
+    bottom: moderateScale(0),
+    right: moderateScale(15),
+    width: moderateScale(75)
+  },
 });

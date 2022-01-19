@@ -8,8 +8,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {green} from '../utils/colors';
 import styles from './styles';
 import {bindActionCreators} from 'redux';
-import {addQuantity, removeItem} from '../redux/action';
+import {addQuantity, removeItem, removeItemFromCart} from '../redux/action';
 import {connect} from 'react-redux';
+import {numberFormat} from '../utils';
 
 class Cart extends Component {
   constructor(props) {
@@ -19,11 +20,27 @@ class Cart extends Component {
 
   handleReduceProductCount(item) {
     this.props.removeItem(item.productId);
-  };
+  }
 
   handleAddProductCount(item) {
     this.props.addQuantity(item.productId);
   }
+
+  renderEmptyComponent = () => {
+    return (
+      <View style={{justifyContent: 'center', alignContent: 'center'}}>
+        <Text
+          style={{
+            alignSelf: 'center',
+            fontWeight: 'bold',
+            fontSize: moderateScale(18),
+            width: moderateScale(300),
+          }}>
+          No items available in cart, add item to proceed to checkout
+        </Text>
+      </View>
+    );
+  };
 
   renderProductCart = ({item}) => {
     return (
@@ -63,16 +80,19 @@ class Cart extends Component {
               </View>
             </View>
           </View>
-          <View style={styles.btnRemoveView}>
+          <Pressable
+            onPress={() => this.props.removeItemFromCart(item.productId)}
+            style={styles.btnRemoveView}>
             <View>
               <Text style={{color: green}}>Remove</Text>
             </View>
             <View>
               <Text style={styles.itemTxtAmount}>
-                {item.stock_record_price_retail * item.quantity}
+                Ksh{' '}
+                {numberFormat(item.stock_record_price_retail * item.quantity)}
               </Text>
             </View>
-          </View>
+          </Pressable>
         </View>
       </Card>
     );
@@ -90,28 +110,30 @@ class Cart extends Component {
             data={this.props.products}
             renderItem={this.renderProductCart}
             contentContainerStyle={{flexGrow: 1}}
+            ListEmptyComponent={this.renderEmptyComponent}
           />
         </View>
-        <View style={styles.totalViewStyle}>
+        {this.props.products.length > 0 && (
           <View>
-            <Text style={styles.txtTotal}>Total</Text>
-          </View>
-          <View>
-            <Text style={styles.txtAmount}>
-              Ksh{' '}
-              {this.props.total
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Pressable style={styles.btnProceedView}>
-            <View>
-              <Text style={styles.txtProceed}>Proceed To Checkout</Text>
+            <View style={styles.totalViewStyle}>
+              <View>
+                <Text style={styles.txtTotal}>Total</Text>
+              </View>
+              <View>
+                <Text style={styles.txtAmount}>
+                  Ksh {numberFormat(this.props.total)}
+                </Text>
+              </View>
             </View>
-          </Pressable>
-        </View>
+            <View>
+              <Pressable style={styles.btnProceedView}>
+                <View>
+                  <Text style={styles.txtProceed}>Proceed To Checkout</Text>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+        )}
       </Container>
     );
   }
@@ -129,6 +151,7 @@ const mapDispatchToProps = dispatch => {
     {
       removeItem,
       addQuantity,
+      removeItemFromCart,
     },
     dispatch,
   );

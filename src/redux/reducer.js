@@ -1,4 +1,9 @@
-import {ADD_QUANTITY, ADD_TO_CART, REMOVE_PRODUCT} from './constants';
+import {
+  ADD_QUANTITY,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  REMOVE_PRODUCT,
+} from './constants';
 
 const INITIAL_STATE = {
   products: [],
@@ -62,6 +67,28 @@ export default function (state = INITIAL_STATE, action) {
           total: newTotal,
         };
       }
+    }
+  }
+  if (action.type === REMOVE_FROM_CART) {
+    let exists = state.addedProducts.find(
+      item => item.productId === action.payload,
+    );
+    if (exists) {
+      let new_items = state.addedProducts.filter(
+        item => action.payload !== item.productId,
+      );
+      let itemToRemove = state.addedProducts.find(
+        item => action.payload === item.productId,
+      );
+
+      let newTotal =
+        state.total -
+        itemToRemove.stock_record_price_retail * itemToRemove.quantity;
+      return {
+        ...state,
+        addedProducts: new_items,
+        total: newTotal,
+      };
     }
   }
   if (action.type === ADD_QUANTITY) {

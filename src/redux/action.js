@@ -1,4 +1,9 @@
-import {ADD_QUANTITY, ADD_TO_CART, REMOVE_PRODUCT} from './constants';
+import {
+  ADD_QUANTITY,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  REMOVE_PRODUCT,
+} from './constants';
 
 export function addProduct(product) {
   return {
@@ -17,6 +22,13 @@ export function removeItem(id) {
 export function addQuantity(id) {
   return {
     type: ADD_QUANTITY,
+    payload: id,
+  };
+}
+
+export function removeItemFromCart(id) {
+  return {
+    type: REMOVE_FROM_CART,
     payload: id,
   };
 }

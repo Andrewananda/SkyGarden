@@ -16,3 +16,7 @@ export const withNetwork = (action, onNetworkError) => {
       }
     });
 };
+
+export function numberFormat(text) {
+  return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
