@@ -68,7 +68,9 @@ class Cart extends Component {
               <Text style={{color: green}}>Remove</Text>
             </View>
             <View>
-              <Text style={styles.itemTxtAmount}>{item.amount}</Text>
+              <Text style={styles.itemTxtAmount}>
+                {item.stock_record_price_retail * item.quantity}
+              </Text>
             </View>
           </View>
         </View>

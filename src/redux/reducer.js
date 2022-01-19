@@ -32,36 +32,37 @@ export default function (state = INITIAL_STATE, action) {
     }
   }
   if (action.type === REMOVE_PRODUCT) {
-    let itemToRemove = state.addedProducts.find(
-      item => action.payload === item.productId,
+    let exists = state.addedProducts.find(
+      item => item.productId === action.payload,
     );
+    if (exists) {
+      //check quantity count
+      if (exists.quantity > 1) {
+        exists.quantity -= 1;
+        let newTotal = state.total - exists.stock_record_price_retail;
+        return {
+          ...state,
+          total: newTotal,
+        };
+      } else {
+        //just override the whole count
+        let new_items = state.addedProducts.filter(
+          item => action.payload !== item.productId,
+        );
+        let itemToRemove = state.addedProducts.find(
+          item => action.payload === item.productId,
+        );
 
-    let new_items;
-    let newTotal;
-    if (itemToRemove && itemToRemove.quantity > 0) {
-      let newQuantity = itemToRemove.quantity - 1;
-      newTotal =
-        state.total - itemToRemove.stock_record_price_retail * newQuantity;
-      let newItem = itemToRemove.quantity - 1;
-      new_items = {
-        ...state.addedProducts,
-        newItem,
-      };
-      console.log('NewItems', new_items);
-    } else {
-      new_items = state.addedProducts.filter(
-        item => action.payload !== item.productId,
-      );
-      newTotal =
-        state.total -
-        itemToRemove.stock_record_price_retail * itemToRemove.quantity;
+        let newTotal =
+          state.total -
+          itemToRemove.stock_record_price_retail * itemToRemove.quantity;
+        return {
+          ...state,
+          addedProducts: new_items,
+          total: newTotal,
+        };
+      }
     }
-
-    return {
-      ...state,
-      addedProducts: new_items,
-      total: newTotal,
-    };
   }
   if (action.type === ADD_QUANTITY) {
     let addedItem = state.addedProducts.find(
