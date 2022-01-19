@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, Image, Pressable, Text, View} from 'react-native';
+import {Alert, FlatList, Image, Pressable, Text, View} from 'react-native';
 import Container from '../components/Container';
 import Header from '../components/Header';
 import {moderateScale} from 'react-native-size-matters';
@@ -111,6 +111,7 @@ class Cart extends Component {
             renderItem={this.renderProductCart}
             contentContainerStyle={{flexGrow: 1}}
             ListEmptyComponent={this.renderEmptyComponent}
+            keyExtractor={(item, index) => index}
           />
         </View>
         {this.props.products.length > 0 && (
@@ -126,7 +127,13 @@ class Cart extends Component {
               </View>
             </View>
             <View>
-              <Pressable style={styles.btnProceedView}>
+              <Pressable
+                onPress={() =>
+                  Alert.alert('Checkout', 'Coming Soon', [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ])
+                }
+                style={styles.btnProceedView}>
                 <View>
                   <Text style={styles.txtProceed}>Proceed To Checkout</Text>
                 </View>

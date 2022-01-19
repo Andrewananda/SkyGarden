@@ -31,7 +31,12 @@ export default function Header(props) {
         </Badge>
         <Appbar.Action color={'#fff'} icon={'cart'} style={styles.cartStyle} />
       </Pressable>
-      <Searchbar placeholder="Search for everything" style={styles.searchBar} />
+      <Searchbar
+        onChangeText={props.onSearch}
+        placeholder="Search for everything"
+        style={styles.searchBar}
+        value={props.value}
+      />
     </Appbar.Header>
   );
 }

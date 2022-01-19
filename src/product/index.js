@@ -7,6 +7,7 @@ import {
   View,
   RefreshControl,
 } from 'react-native';
+import {search} from 'ss-search';
 import {fetchProducts} from '../utils/network';
 import {withNetwork} from '../utils';
 import {ActivityIndicator, Card} from 'react-native-paper';
@@ -25,12 +26,28 @@ export default class Product extends Component {
       page: 0,
       productList: [],
       refreshing: false,
+      filtered: [],
+      searchValue: '',
+      arrayholder: [],
     };
   }
 
   componentDidMount() {
     this.loadProduct();
   }
+
+  searchFilterFunction = text => {
+    const newData = this.arrayholder.filter(item => {
+      const itemData = `${item.title.toUpperCase()}   
+    ${item.category_name.toUpperCase()} ${item.offer_name.toUpperCase()}`;
+
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+
+    this.setState({products: newData});
+  };
 
   loadProduct() {
     let _this = this;
@@ -39,11 +56,15 @@ export default class Product extends Component {
         fetchProducts(
           function (response) {
             _this.setState(
-              {productList: response.data.value, loading: false},
+              {
+                productList: response.data.value,
+                loading: false,
+              },
               () => {
                 _this.filterRecords(0);
               },
             );
+            _this.arrayholder = response.data.value;
           },
           function (error) {
             console.log('Error', error);
@@ -142,7 +163,12 @@ export default class Product extends Component {
   render() {
     return (
       <Container style={{flex: 1}}>
-        <Header />
+        <Header
+          onSearch={text => {
+            this.searchFilterFunction(text);
+          }}
+          searchValue={this.state.searchValue}
+        />
         {this.state.loading && (
           <View style={styles.loadingIndicatorView}>
             <ActivityIndicator size={30} style={{alignSelf: 'center'}} />
@@ -154,7 +180,9 @@ export default class Product extends Component {
           numColumns={2}
           keyExtractor={(item, index) => index}
           onEndReached={this.onScrollHandler}
-          onEndThreshold={0}
+          onEndReachedThreshold={0.5}
+          scrollEventThrottle={400}
+          bounces={false}
           refreshControl={<RefreshControl refreshing={this.state.refreshing} />}
         />
       </Container>

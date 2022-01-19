@@ -22,7 +22,8 @@
     "react-native-size-matters": "^0.4.0",
     "react-native-vector-icons": "^9.0.0",
     "react-redux": "^7.2.6",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "ss-search": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
