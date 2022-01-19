@@ -7,68 +7,22 @@ import {Card} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {green} from '../utils/colors';
 import styles from './styles';
+import {bindActionCreators} from 'redux';
+import {addQuantity, removeItem} from '../redux/action';
+import {connect} from 'react-redux';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      products: [
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-        {
-          original_image: 'https://reactnative.dev/img/tiny_logo.png',
-          title:
-            "iBRIT i5 - 5.5'' Smartphone 16GB ROM + 2GB RAM 4G and  Free Mobile Cover case",
-          amount: 'Ksh 12,960',
-        },
-      ],
-    };
+    this.state = {};
+  }
+
+  handleReduceProductCount(item) {
+    this.props.removeItem(item.productId);
+  };
+
+  handleAddProductCount(item) {
+    this.props.addQuantity(item.productId);
   }
 
   renderProductCart = ({item}) => {
@@ -91,13 +45,21 @@ class Cart extends Component {
             </View>
             <View style={styles.itemStepperContainer}>
               <View style={styles.m5Style}>
-                <Icon size={moderateScale(24)} name={'remove-circle-outline'} />
+                <Icon
+                  onPress={() => this.handleReduceProductCount(item)}
+                  size={moderateScale(24)}
+                  name={'remove-circle-outline'}
+                />
               </View>
               <View style={styles.m5Style}>
-                <Text style={{fontSize: moderateScale(18)}}>10</Text>
+                <Text style={{fontSize: moderateScale(18)}}>
+                  {item.quantity}
+                </Text>
               </View>
               <View style={styles.m5Style}>
-                <Icon size={moderateScale(24)} name={'add-circle-outline'} />
+                <Pressable onPress={() => this.handleAddProductCount(item)}>
+                  <Icon size={moderateScale(24)} name={'add-circle-outline'} />
+                </Pressable>
               </View>
             </View>
           </View>
@@ -123,7 +85,7 @@ class Cart extends Component {
         </View>
         <View style={{flex: 1}}>
           <FlatList
-            data={this.state.products}
+            data={this.props.products}
             renderItem={this.renderProductCart}
             contentContainerStyle={{flexGrow: 1}}
           />
@@ -133,7 +95,12 @@ class Cart extends Component {
             <Text style={styles.txtTotal}>Total</Text>
           </View>
           <View>
-            <Text style={styles.txtAmount}>Ksh 12,123</Text>
+            <Text style={styles.txtAmount}>
+              Ksh{' '}
+              {this.props.total
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </Text>
           </View>
         </View>
         <View>
@@ -148,4 +115,21 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+const mapStateToProps = state => {
+  return {
+    products: state.appState.addedProducts,
+    total: state.appState.total,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      removeItem,
+      addQuantity,
+    },
+    dispatch,
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

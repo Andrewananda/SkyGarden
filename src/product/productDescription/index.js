@@ -8,6 +8,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Card, List} from 'react-native-paper';
 import styles from './styles';
+import {bindActionCreators} from 'redux';
+import {addProduct} from '../../redux/action';
+import {connect} from 'react-redux';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -17,6 +20,7 @@ class ProductDescription extends Component {
       product: {},
       imageUrl: '',
       loading: true,
+      quantity: 0,
     };
   }
 
@@ -33,6 +37,15 @@ class ProductDescription extends Component {
     }
     return item.offer_benefit_value + '%';
   }
+
+  addToCart = () => {
+    const productToSend = {
+      ...this.state.product,
+      ...this.state.quantity,
+    };
+    this.props.addProduct(productToSend),
+      this.props.navigation.navigate('Cart');
+  };
 
   render() {
     return (
@@ -110,9 +123,7 @@ class ProductDescription extends Component {
               <View>
                 <Pressable
                   style={styles.txtAddToCartView}
-                  onPress={() => {
-                    this.props.navigation.navigate('Cart');
-                  }}>
+                  onPress={this.addToCart}>
                   <Text style={styles.txtAddToCart}>Add To Cart</Text>
                 </Pressable>
               </View>
@@ -209,4 +220,13 @@ class ProductDescription extends Component {
   }
 }
 
-export default ProductDescription;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addProduct,
+    },
+    dispatch,
+  );
+};
+
+export default connect(null, mapDispatchToProps)(ProductDescription);
