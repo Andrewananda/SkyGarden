@@ -29,7 +29,12 @@ export default function Header(props) {
         <Badge style={styles.badgeStyle}>
           <Text style={{color: '#fff'}}>{products.length}</Text>
         </Badge>
-        <Appbar.Action color={'#fff'} icon={'cart'} style={styles.cartStyle} />
+        <Appbar.Action
+          color={'#fff'}
+          size={moderateScale(25)}
+          icon={'cart'}
+          style={styles.cartStyle}
+        />
       </Pressable>
       <Searchbar
         onChangeText={props.onSearch}
@@ -56,8 +61,8 @@ const styles = StyleSheet.create({
   },
   badgeStyle: {
     position: 'absolute',
-    right: 0,
-    top: 5,
+    right: moderateScale(2),
+    top: moderateScale(8),
     backgroundColor: green,
   },
   cartStyle: {

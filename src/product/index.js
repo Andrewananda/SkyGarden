@@ -7,7 +7,6 @@ import {
   View,
   RefreshControl,
 } from 'react-native';
-import {search} from 'ss-search';
 import {fetchProducts} from '../utils/network';
 import {withNetwork} from '../utils';
 import {ActivityIndicator, Card} from 'react-native-paper';
