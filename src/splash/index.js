@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, SafeAreaView, Image} from 'react-native';
 import {styles} from './styles';
 import {CommonActions} from '@react-navigation/native';
+import {ActivityIndicator} from 'react-native-paper';
+import {moderateScale} from 'react-native-size-matters';
 
 class Splash extends Component {
   constructor(props) {
@@ -37,6 +39,9 @@ class Splash extends Component {
             resizeMode={'contain'}
             style={styles.logoStyle}
           />
+          <View>
+            <ActivityIndicator color={'#fff'} size={moderateScale(20)} />
+          </View>
         </View>
       </SafeAreaView>
     );

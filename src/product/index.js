@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Container from '../components/Container';
 import styles from './styles';
 import Header from '../components/Header';
+import SnackBarComponent from '../components/SnackBarComponent';
 
 export default class Product extends Component {
   constructor(props) {
@@ -66,12 +67,17 @@ export default class Product extends Component {
             _this.arrayholder = response.data.value;
           },
           function (error) {
-            console.log('Error', error);
+            this.setState({loading: false});
+            this.snackBar.showSnackBar(
+              'An error occurred while loading products',
+              'retry',
+            );
           },
         );
       },
       function (error) {
-        console.log('NetworkError', error);
+        this.setState({loading: false});
+        this.snackBar.showSnackBar('No internet connection', 'retry');
       },
     );
   }
@@ -173,6 +179,11 @@ export default class Product extends Component {
             <ActivityIndicator size={30} style={{alignSelf: 'center'}} />
           </View>
         )}
+        {!this.state.loading && (
+          <View>
+            <Text style={styles.txtSmartPhone}>Smartphones</Text>
+          </View>
+        )}
         <FlatList
           data={this.state.products}
           renderItem={this.renderProducts}
@@ -182,7 +193,12 @@ export default class Product extends Component {
           onEndReachedThreshold={0.5}
           scrollEventThrottle={400}
           bounces={false}
+          refreshing={this.state.refreshing}
           refreshControl={<RefreshControl refreshing={this.state.refreshing} />}
+        />
+        <SnackBarComponent
+          onPress={() => this.loadProduct()}
+          ref={ref => (this.snackBar = ref)}
         />
       </Container>
     );

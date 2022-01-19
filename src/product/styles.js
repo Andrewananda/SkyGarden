@@ -79,4 +79,10 @@ export default StyleSheet.create({
     height: moderateScale(150),
     margin: moderateScale(4),
   },
+  txtSmartPhone: {
+    fontSize: moderateScale(20),
+    fontWeight: 'bold',
+    color: '#000',
+    margin: moderateScale(8),
+  },
 });

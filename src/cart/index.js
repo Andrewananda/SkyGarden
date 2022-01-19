@@ -28,14 +28,8 @@ class Cart extends Component {
 
   renderEmptyComponent = () => {
     return (
-      <View style={{justifyContent: 'center', alignContent: 'center'}}>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontWeight: 'bold',
-            fontSize: moderateScale(18),
-            width: moderateScale(300),
-          }}>
+      <View style={styles.emptyComponentContainer}>
+        <Text style={styles.emptyComponent}>
           No items available in cart, add item to proceed to checkout
         </Text>
       </View>

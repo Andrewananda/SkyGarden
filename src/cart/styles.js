@@ -75,6 +75,16 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: moderateScale(0),
     right: moderateScale(15),
-    width: moderateScale(75)
+    width: moderateScale(75),
+  },
+  emptyComponent: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: moderateScale(18),
+    width: moderateScale(300),
+  },
+  emptyComponentContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });
